@@ -2,8 +2,8 @@
 
 Here are some of the things you can do with gulp:
 
-##Jade
-- Compile
+##Html
+- Precompiler/templating engine
 
 ##CSS
 - Precompile

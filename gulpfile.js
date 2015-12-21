@@ -10,6 +10,9 @@ plugins.pngquant        = require('imagemin-pngquant');
 plugins.jpgmin          = require('imagemin-jpegoptim');
 plugins.bs              = require('browser-sync').create();
 
+plugins.manifest        = require('./rev-manifest.json');
+plugins.updateManifest  = require('./functions/update-manifest.js');
+
 plugins.plumberSettings = {
 	errorHandler: function(err){
 		console.log(err);
@@ -21,12 +24,10 @@ fs.readdirSync('./tasks/').forEach(function(file) {
 	require('./tasks/' + file)(gulp, plugins);
 });
 
-gulp.task('default', ['js', 'css', 'svg', 'browser-sync', 'watch']);
+gulp.task('default', ['css', 'js', 'svg', 'html', 'browser-sync', 'watch']);
 
 gulp.task('watch', Object.keys(gulp.tasks).filter(function(task){
 	return /watch-.*/gi.test(task);
 }));
 
-gulp.task('build', Object.keys(gulp.tasks).filter(function(task){
-	return /build-.*/gi.test(task);
-}));
+gulp.task('build', ['build-css', 'build-js', 'build-svg', 'build-html', 'images']);

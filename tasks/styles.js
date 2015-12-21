@@ -1,5 +1,5 @@
 var styles = require('../functions/crawler.js')('css/', new RegExp('^@import[\'" ]*([^\'"\n]+)', 'gm'));
-console.log(styles);
+
 module.exports = function(gulp, $){
 	Object.keys(styles).forEach(function(mainFile){
 
@@ -27,7 +27,20 @@ module.exports = function(gulp, $){
 				.pipe($.minifyCss())
 				.pipe($.autoprefixer())
 				.pipe($.rev())
-				.pipe($.tap($.updateManifest))
+				.pipe($.tap(function(file){
+					if(!('revOrigPath' in file)){
+						return;
+					}
+					if(!$.fs.existsSync('./rev-manifest.json')){
+						$.fs.writeFileSync('./rev-manifest.json', '{}');
+					}
+
+					var revmanifest = JSON.parse($.fs.readFileSync('./rev-manifest.json', 'utf8').replace(/,(?=\n})/g, ''));
+					if(typeof revmanifest !== 'object') revmanifest = {};
+					revmanifest[$.path.basename(file.revOrigPath)] = $.path.basename(file.path);
+					manifest = revmanifest;
+					$.fs.writeFileSync('./rev-manifest.json', JSON.stringify(revmanifest, null, '	'));
+				}))
 				.pipe(gulp.dest('public/' + styles[mainFile].dir));
 		});
 
@@ -37,4 +50,7 @@ module.exports = function(gulp, $){
 	});
 
 	gulp.task('css', Object.keys(styles));
+	gulp.task('build-css', Object.keys(gulp.tasks).filter(function(task){
+		return /build-.*\.scss\.js/gi.test(task);
+	}));
 }
