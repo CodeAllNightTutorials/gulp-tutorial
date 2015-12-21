@@ -27,21 +27,9 @@ module.exports = function(gulp, $){
 				.pipe($.minifyCss())
 				.pipe($.autoprefixer())
 				.pipe($.rev())
-				.pipe($.tap(function(file){
-					if(!('revOrigPath' in file)){
-						return;
-					}
-					if(!$.fs.existsSync('./rev-manifest.json')){
-						$.fs.writeFileSync('./rev-manifest.json', '{}');
-					}
-
-					var revmanifest = JSON.parse($.fs.readFileSync('./rev-manifest.json', 'utf8').replace(/,(?=\n})/g, ''));
-					if(typeof revmanifest !== 'object') revmanifest = {};
-					revmanifest[$.path.basename(file.revOrigPath)] = $.path.basename(file.path);
-					manifest = revmanifest;
-					$.fs.writeFileSync('./rev-manifest.json', JSON.stringify(revmanifest, null, '	'));
-				}))
-				.pipe(gulp.dest('public/' + styles[mainFile].dir));
+				.pipe(gulp.dest('./public/' + styles[mainFile].dir))
+				.pipe($.rev.manifest({merge: true}))
+				.pipe(gulp.dest('./'));
 		});
 
 		gulp.task('watch-' + mainFile, function(){
