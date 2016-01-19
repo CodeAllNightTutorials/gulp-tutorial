@@ -1,4 +1,4 @@
-# Building the ultimate gulpfile
+# The ultimate gulp setup
 
 Here are some of the things you can do with gulp:
 

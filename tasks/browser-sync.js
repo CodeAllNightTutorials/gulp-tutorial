@@ -1,14 +1,14 @@
 module.exports = function(gulp, $){
 	gulp.task('browser-sync', function(){
 		$.bs.init(null, {
-			proxy: 'http://localhost:8080',
+			server: './public/',
 			open: false,
-			port: 4000,
+			port: 5000,
 			files: [
 				'views/**/*.jade',
-				'source/**/*.jade',
-				'source/**/*.js',
-				'source/images/**'
+				'public/**/*.html',
+				'public/**/*.js',
+				'public/images/**'
 			],
 			ghostMode: false
 		});

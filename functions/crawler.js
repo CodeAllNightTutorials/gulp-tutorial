@@ -2,7 +2,11 @@ var fs = require('fs');
 var path = require('path');
 
 module.exports = function(dir, regex){
-	var files = fs.readdirSync(path.join('source', dir))
+	var files = fs.readdirSync(path.join('source', dir));
+
+	files = files.filter(file => {
+		return fs.lstatSync(path.join('source', dir, file)).isFile();
+	});
 
 	var data = {};
 
@@ -16,7 +20,6 @@ module.exports = function(dir, regex){
 		var matches = [path.join('source', dir, file)];
 
 		while(result = regex.exec(contents)){
-			// console.log(result);
 			matches.push(path.join('source', dir, result[1]));
 		}
 

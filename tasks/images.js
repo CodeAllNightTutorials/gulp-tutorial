@@ -1,4 +1,6 @@
 module.exports = function(gulp, $){
+
+	// Define images task
 	gulp.task('images', function(){
 		return gulp.src('source/images/**')
 			.pipe($.plumber($.plumberSettings))
