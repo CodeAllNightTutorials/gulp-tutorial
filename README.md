@@ -1,6 +1,6 @@
 # The ultimate gulp setup
 
-Here are some of the things you can do with gulp:
+Here are some of the things will be doing with gulp:
 
 ##Html
 - Precompiler/templating engine
@@ -25,4 +25,4 @@ Here are some of the things you can do with gulp:
 
 ##Browser-sync
 - Reload on html/js/image change
-- Stream css changes
+- Inject css changes

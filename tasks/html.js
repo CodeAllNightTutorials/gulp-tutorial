@@ -4,7 +4,6 @@ module.exports = function(gulp, $){
 	var devTasks = [];
 	var prodTasks = [];
 
-
 	Object.keys(jades).forEach(function(mainFile){
 
 		// Build tasks for development and production
